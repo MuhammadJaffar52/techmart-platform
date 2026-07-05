@@ -8,118 +8,124 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f0f2f5;
-      color: #1a1a2e;
+      background: #f0f2f5; color: #1a1a2e;
     }
     nav {
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      color: white;
-      padding: 0.8rem 2rem;
+      color: white; padding: 0.7rem 2rem;
       display: flex; justify-content: space-between; align-items: center;
       box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-      position: sticky; top: 0; z-index: 100;
-      flex-wrap: wrap; gap: 0.5rem;
+      position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 0.4rem;
     }
     nav .left { display: flex; align-items: center; gap: 1.5rem; }
-    nav h1 { font-size: 1.5rem; font-weight: 700; cursor: pointer; }
+    nav h1 { font-size: 1.4rem; font-weight: 700; cursor: pointer; white-space: nowrap; }
     nav h1 span { color: #e94560; }
-    .nav-links { display: flex; gap: 0.2rem; flex-wrap: wrap; }
+    .nav-links { display: flex; gap: 0.15rem; flex-wrap: wrap; }
     .nav-links a {
-      color: rgba(255,255,255,0.75); text-decoration: none; padding: 0.4rem 0.8rem;
-      border-radius: 8px; font-size: 0.9rem; transition: all 0.2s; cursor: pointer;
+      color: rgba(255,255,255,0.7); text-decoration: none; padding: 0.35rem 0.7rem;
+      border-radius: 8px; font-size: 0.85rem; transition: all 0.2s; cursor: pointer;
     }
     .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,0.12); color: white; }
-    nav .right { display: flex; align-items: center; gap: 1rem; }
+    nav .right { display: flex; align-items: center; gap: 0.6rem; }
     .cart-btn {
-      background: rgba(255,255,255,0.12); border: none; color: white; padding: 0.4rem 0.9rem;
-      border-radius: 20px; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.12); border: none; color: white; padding: 0.35rem 0.8rem;
+      border-radius: 20px; cursor: pointer; font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem;
       transition: background 0.2s; position: relative;
     }
     .cart-btn:hover { background: rgba(255,255,255,0.2); }
     .cart-count {
-      background: #e94560; color: white; font-size: 0.7rem; font-weight: 700;
-      width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      position: absolute; top: -6px; right: -6px;
+      background: #e94560; color: white; font-size: 0.65rem; font-weight: 700;
+      width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      position: absolute; top: -5px; right: -5px;
     }
     .badge {
-      background: rgba(255,255,255,0.1); padding: 0.3rem 0.8rem;
-      border-radius: 20px; font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.1); padding: 0.25rem 0.7rem;
+      border-radius: 20px; font-size: 0.75rem; display: flex; align-items: center; gap: 0.3rem;
     }
-    .badge .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+    .badge .dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
     .dot.green { background: #2ecc71; }
     .dot.red { background: #e74c3c; }
-    .dot.yellow { background: #f39c12; }
-    .container { max-width: 1280px; margin: 0 auto; padding: 1.5rem 2rem; }
+    .user-info {
+      display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem;
+      background: rgba(255,255,255,0.1); padding: 0.25rem 0.7rem; border-radius: 20px;
+    }
+    .user-info .logout-btn {
+      background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer;
+      font-size: 0.75rem; text-decoration: underline; padding: 0;
+    }
+    .user-info .logout-btn:hover { color: #e94560; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 1.2rem 2rem; }
     .page { display: none; }
     .page.active { display: block; }
-    .hero { text-align: center; padding: 2.5rem 1rem 1.5rem; }
-    .hero h2 { font-size: 2rem; font-weight: 700; }
-    .hero p { color: #666; font-size: 1.05rem; margin-top: 0.3rem; }
-    .stats { display: flex; gap: 1.2rem; justify-content: center; margin: 1.2rem 0 2rem; flex-wrap: wrap; }
+    .hero { text-align: center; padding: 2rem 1rem 1.2rem; }
+    .hero h2 { font-size: 1.8rem; font-weight: 700; }
+    .hero p { color: #666; font-size: 1rem; margin-top: 0.3rem; }
+    .hero-sub { color: #888; font-size: 0.9rem; margin-top: 0.2rem; }
+    .stats { display: flex; gap: 1rem; justify-content: center; margin: 1rem 0 1.5rem; flex-wrap: wrap; }
     .stat-card {
-      background: white; padding: 1rem 1.8rem; border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; min-width: 130px;
+      background: white; padding: 0.9rem 1.6rem; border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; min-width: 120px;
     }
-    .stat-card .num { font-size: 1.6rem; font-weight: 700; color: #0f3460; }
-    .stat-card .label { font-size: 0.82rem; color: #888; margin-top: 0.15rem; }
-    .filters { display: flex; gap: 0.6rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .stat-card .num { font-size: 1.5rem; font-weight: 700; color: #0f3460; }
+    .stat-card .label { font-size: 0.78rem; color: #888; margin-top: 0.1rem; }
+    .filters { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
     .filters button {
-      padding: 0.45rem 1.1rem; border: 2px solid #e0e0e0; border-radius: 25px;
-      background: white; cursor: pointer; font-size: 0.85rem; font-weight: 500;
+      padding: 0.4rem 1rem; border: 2px solid #e0e0e0; border-radius: 25px;
+      background: white; cursor: pointer; font-size: 0.82rem; font-weight: 500;
       transition: all 0.2s;
     }
     .filters button:hover { border-color: #0f3460; color: #0f3460; }
     .filters button.active { background: #0f3460; color: white; border-color: #0f3460; }
     .grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-      gap: 1.2rem;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
     }
     .card {
-      background: white; border-radius: 14px; overflow: hidden;
+      background: white; border-radius: 12px; overflow: hidden;
       box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: transform 0.2s, box-shadow 0.2s;
-      display: flex; flex-direction: column;
+      display: flex; flex-direction: column; cursor: pointer;
     }
     .card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
     .card-img {
-      height: 150px; display: flex; align-items: center; justify-content: center;
-      font-size: 2.8rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: rgba(255,255,255,0.9);
+      height: 130px; display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: rgba(255,255,255,0.85);
     }
-    .card-body { padding: 1rem 1.2rem; flex: 1; display: flex; flex-direction: column; }
-    .card-body h3 { font-size: 1.05rem; font-weight: 600; }
-    .card-body .desc { color: #666; font-size: 0.85rem; line-height: 1.4; margin: 0.3rem 0 0.6rem; flex: 1; }
+    .card-body { padding: 0.8rem 1rem; flex: 1; display: flex; flex-direction: column; }
+    .card-body h3 { font-size: 1rem; font-weight: 600; }
+    .card-body .desc { color: #666; font-size: 0.82rem; line-height: 1.4; margin: 0.25rem 0 0.5rem; flex: 1; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .card-footer {
       display: flex; justify-content: space-between; align-items: center;
-      padding-top: 0.7rem; border-top: 1px solid #f0f0f0; margin-top: auto;
+      padding-top: 0.6rem; border-top: 1px solid #f0f0f0; margin-top: auto;
     }
-    .price { font-size: 1.2rem; font-weight: 700; color: #0f3460; }
-    .stock { font-size: 0.78rem; padding: 0.2rem 0.6rem; border-radius: 12px; font-weight: 500; }
+    .price { font-size: 1.15rem; font-weight: 700; color: #0f3460; }
+    .stock { font-size: 0.75rem; padding: 0.15rem 0.5rem; border-radius: 10px; font-weight: 500; }
     .stock.high { background: #d5f5e3; color: #1e8449; }
     .stock.med { background: #fef9e7; color: #b7950b; }
     .stock.low { background: #fadbd8; color: #c0392b; }
     .category-tag {
-      display: inline-block; font-size: 0.72rem; padding: 0.2rem 0.55rem;
-      border-radius: 10px; background: #eef2f7; color: #555; margin-bottom: 0.4rem; align-self: flex-start;
+      display: inline-block; font-size: 0.7rem; padding: 0.15rem 0.5rem;
+      border-radius: 8px; background: #eef2f7; color: #555; margin-bottom: 0.35rem; align-self: flex-start;
     }
     .add-cart-btn {
-      width: 100%; margin-top: 0.8rem; padding: 0.5rem; border: none;
+      width: 100%; margin-top: 0.6rem; padding: 0.45rem; border: none;
       background: #0f3460; color: white; border-radius: 8px; cursor: pointer;
-      font-size: 0.85rem; font-weight: 600; transition: background 0.2s;
+      font-size: 0.82rem; font-weight: 600; transition: background 0.2s;
     }
     .add-cart-btn:hover { background: #1a4a7a; }
     .add-cart-btn:disabled { background: #ccc; cursor: not-allowed; }
-    .loading { text-align: center; padding: 4rem; color: #888; font-size: 1.05rem; }
+    .loading { text-align: center; padding: 3rem; color: #888; font-size: 1rem; }
     .loading .spinner {
-      width: 36px; height: 36px; border: 4px solid #e0e0e0;
+      width: 32px; height: 32px; border: 4px solid #e0e0e0;
       border-top-color: #0f3460; border-radius: 50%; animation: spin 0.8s linear infinite;
-      margin: 0 auto 1rem;
+      margin: 0 auto 0.8rem;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .error-state { text-align: center; padding: 3rem; color: #e74c3c; }
-    .error-state .icon { font-size: 2.5rem; margin-bottom: 0.8rem; }
+    .error-state { text-align: center; padding: 2.5rem; color: #e74c3c; }
+    .error-state .icon { font-size: 2.2rem; margin-bottom: 0.6rem; }
     .btn {
-      padding: 0.5rem 1.2rem; border: none; border-radius: 8px; cursor: pointer;
-      font-size: 0.9rem; font-weight: 600; transition: all 0.2s;
+      padding: 0.45rem 1.1rem; border: none; border-radius: 8px; cursor: pointer;
+      font-size: 0.85rem; font-weight: 600; transition: all 0.2s;
     }
     .btn-primary { background: #0f3460; color: white; }
     .btn-primary:hover { background: #1a4a7a; }
@@ -127,102 +133,156 @@
     .btn-danger:hover { background: #c0392b; }
     .btn-success { background: #27ae60; color: white; }
     .btn-success:hover { background: #1e8449; }
-    .btn-sm { padding: 0.3rem 0.7rem; font-size: 0.8rem; }
+    .btn-sm { padding: 0.25rem 0.6rem; font-size: 0.75rem; }
     table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-    th, td { padding: 0.8rem 1rem; text-align: left; }
-    th { background: #f8f9fa; font-size: 0.85rem; color: #555; font-weight: 600; border-bottom: 2px solid #e0e0e0; }
-    td { border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; }
+    th, td { padding: 0.7rem 0.9rem; text-align: left; }
+    th { background: #f8f9fa; font-size: 0.82rem; color: #555; font-weight: 600; border-bottom: 2px solid #e0e0e0; }
+    td { border-bottom: 1px solid #f0f0f0; font-size: 0.85rem; }
     tr:last-child td { border-bottom: none; }
-    .qty-controls { display: flex; align-items: center; gap: 0.5rem; }
+    .qty-controls { display: flex; align-items: center; gap: 0.4rem; }
     .qty-controls button {
-      width: 28px; height: 28px; border: 1px solid #ddd; border-radius: 6px;
-      background: white; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border: 1px solid #ddd; border-radius: 6px;
+      background: white; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;
     }
     .qty-controls button:hover { background: #f5f5f5; }
-    .qty-controls span { min-width: 20px; text-align: center; font-weight: 600; }
-    .empty-state { text-align: center; padding: 3rem; color: #888; }
-    .empty-state .big { font-size: 3rem; margin-bottom: 0.5rem; }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 0.3rem; }
+    .qty-controls span { min-width: 18px; text-align: center; font-weight: 600; }
+    .empty-state { text-align: center; padding: 2.5rem; color: #888; }
+    .empty-state .big { font-size: 2.8rem; margin-bottom: 0.4rem; }
+    .form-group { margin-bottom: 0.9rem; }
+    .form-group label { display: block; font-size: 0.82rem; font-weight: 600; color: #555; margin-bottom: 0.25rem; }
     .form-group input, .form-group textarea, .form-group select {
-      width: 100%; padding: 0.6rem 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px;
-      font-size: 0.9rem; transition: border-color 0.2s; font-family: inherit;
+      width: 100%; padding: 0.55rem 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px;
+      font-size: 0.85rem; transition: border-color 0.2s; font-family: inherit;
     }
     .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #0f3460; }
-    form { max-width: 500px; margin: 0 auto; }
-    .auth-form { max-width: 380px; margin: 2rem auto; background: white; padding: 2rem; border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-    .auth-form h3 { margin-bottom: 1rem; text-align: center; font-size: 1.2rem; }
-    .auth-form .toggle { text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #888; }
+    form { max-width: 480px; margin: 0 auto; }
+    .auth-form { max-width: 360px; margin: 1.5rem auto; background: white; padding: 1.8rem; border-radius: 14px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .auth-form h3 { margin-bottom: 0.9rem; text-align: center; font-size: 1.15rem; }
+    .auth-form .toggle { text-align: center; margin-top: 0.9rem; font-size: 0.82rem; color: #888; }
     .auth-form .toggle a { color: #0f3460; cursor: pointer; text-decoration: underline; }
     .toast {
-      position: fixed; bottom: 2rem; right: 2rem; background: #1a1a2e; color: white;
-      padding: 0.8rem 1.5rem; border-radius: 10px; font-size: 0.9rem;
+      position: fixed; bottom: 1.5rem; right: 1.5rem; background: #1a1a2e; color: white;
+      padding: 0.7rem 1.3rem; border-radius: 10px; font-size: 0.85rem;
       box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 999;
-      transform: translateY(100px); opacity: 0; transition: all 0.3s;
+      transform: translateY(80px); opacity: 0; transition: all 0.3s;
     }
     .toast.show { transform: translateY(0); opacity: 1; }
     .toast.success { border-left: 4px solid #2ecc71; }
     .toast.error { border-left: 4px solid #e74c3c; }
-    .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.8rem; }
+
+    .product-detail {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+      background: white; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08); max-width: 900px; margin: 1.5rem auto;
+    }
+    .product-detail .pd-img {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; color: rgba(255,255,255,0.85); min-height: 300px;
+    }
+    .product-detail .pd-body { padding: 2rem; }
+    .product-detail .pd-body h2 { font-size: 1.6rem; margin-bottom: 0.3rem; }
+    .product-detail .pd-body .pd-desc { color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
+    .product-detail .pd-body .pd-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+    .product-detail .pd-body .pd-meta .pd-field { }
+    .product-detail .pd-body .pd-meta .pd-field .label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+    .product-detail .pd-body .pd-meta .pd-field .value { font-size: 1.1rem; font-weight: 700; color: #1a1a2e; }
+    .product-detail .pd-body .pd-qty { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+    .product-detail .pd-body .pd-qty label { font-weight: 600; font-size: 0.9rem; }
+    .product-detail .pd-body .pd-qty select { padding: 0.4rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.9rem; }
+    .product-detail .pd-body .pd-actions { display: flex; gap: 0.8rem; }
+    .product-detail .pd-body .pd-actions .btn { padding: 0.7rem 1.5rem; font-size: 0.95rem; }
+
     .order-card {
-      background: white; border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem;
+      background: white; border-radius: 12px; padding: 1rem; margin-bottom: 0.9rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
     .order-card .order-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 0.8rem; padding-bottom: 0.6rem; border-bottom: 1px solid #f0f0f0;
-      font-size: 0.85rem; color: #888;
+      margin-bottom: 0.6rem; padding-bottom: 0.5rem; border-bottom: 1px solid #f0f0f0;
+      font-size: 0.82rem; color: #888;
     }
-    .order-card .order-total { font-size: 1.1rem; font-weight: 700; color: #0f3460; }
+    .order-card .order-total { font-size: 1.05rem; font-weight: 700; color: #0f3460; }
     .order-card .order-items { list-style: none; }
     .order-card .order-items li {
-      display: flex; justify-content: space-between; padding: 0.3rem 0;
-      font-size: 0.9rem; color: #555;
+      display: flex; justify-content: space-between; padding: 0.25rem 0;
+      font-size: 0.85rem; color: #555;
     }
     .contact-info {
-      max-width: 600px; margin: 1.5rem auto; display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem;
+      max-width: 600px; margin: 1.2rem auto; display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;
     }
     .contact-info .info-card {
-      background: white; padding: 1.2rem; border-radius: 12px; text-align: center;
+      background: white; padding: 1rem; border-radius: 12px; text-align: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
-    .contact-info .info-card .ic { font-size: 2rem; margin-bottom: 0.5rem; }
-    .contact-info .info-card h4 { font-size: 1rem; margin-bottom: 0.3rem; }
-    .contact-info .info-card p { color: #666; font-size: 0.85rem; }
+    .contact-info .info-card .ic { font-size: 1.8rem; margin-bottom: 0.4rem; }
+    .contact-info .info-card h4 { font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .contact-info .info-card p { color: #666; font-size: 0.82rem; }
     .services-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.2rem; margin-top: 1.5rem;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem; margin-top: 1.2rem;
     }
     .service-card {
-      background: white; border-radius: 14px; padding: 1.5rem; text-align: center;
+      background: white; border-radius: 14px; padding: 1.3rem; text-align: center;
       box-shadow: 0 2px 12px rgba(0,0,0,0.06); transition: transform 0.2s;
     }
     .service-card:hover { transform: translateY(-3px); }
-    .service-card .ic { font-size: 2.5rem; margin-bottom: 0.8rem; }
-    .service-card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
-    .service-card p { color: #666; font-size: 0.85rem; line-height: 1.5; }
-    .user-info {
-      display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem;
-      background: rgba(255,255,255,0.1); padding: 0.3rem 0.8rem; border-radius: 20px;
+    .service-card .ic { font-size: 2.2rem; margin-bottom: 0.6rem; }
+    .service-card h3 { font-size: 1rem; margin-bottom: 0.3rem; }
+    .service-card p { color: #666; font-size: 0.82rem; line-height: 1.5; }
+
+    .featured-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem; margin-top: 1.2rem;
     }
-    .user-info .logout-btn {
-      background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer;
-      font-size: 0.8rem; text-decoration: underline; padding: 0;
+    .featured-card {
+      background: white; border-radius: 12px; padding: 1.2rem; text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: transform 0.2s; cursor: pointer;
     }
-    .user-info .logout-btn:hover { color: #e94560; }
+    .featured-card:hover { transform: translateY(-3px); }
+    .featured-card .ic { font-size: 2rem; margin-bottom: 0.4rem; }
+    .featured-card h4 { font-size: 0.9rem; margin-bottom: 0.2rem; }
+    .featured-card .p { color: #0f3460; font-weight: 700; font-size: 1rem; }
+
+    .quick-links {
+      display: flex; gap: 0.8rem; justify-content: center; margin: 1.5rem 0; flex-wrap: wrap;
+    }
+    .quick-links a {
+      background: white; padding: 0.6rem 1.5rem; border-radius: 30px; text-decoration: none;
+      color: #0f3460; font-weight: 600; font-size: 0.85rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: all 0.2s; cursor: pointer;
+    }
+    .quick-links a:hover { background: #0f3460; color: white; }
+    .result-count { font-size: 0.85rem; color: #888; margin-bottom: 0.8rem; }
+    .back-btn { cursor: pointer; color: #0f3460; font-size: 0.9rem; display: inline-block; margin-bottom: 1rem; }
+    .back-btn:hover { text-decoration: underline; }
+
+    .home-categories {
+      display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin: 0.8rem 0;
+    }
+    .home-categories .cat-pill {
+      background: white; padding: 0.4rem 1.2rem; border-radius: 25px; font-size: 0.82rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04); cursor: pointer; transition: all 0.2s;
+    }
+    .home-categories .cat-pill:hover { background: #0f3460; color: white; }
+
     footer {
-      text-align: center; padding: 1.5rem; color: #888; font-size: 0.82rem;
+      text-align: center; padding: 1.2rem; color: #888; font-size: 0.8rem;
       border-top: 1px solid #e0e0e0; margin-top: 2rem;
     }
     footer span { color: #e94560; }
     @media (max-width: 700px) {
-      nav { flex-direction: column; align-items: stretch; gap: 0.4rem; }
-      nav .left { flex-direction: column; align-items: stretch; gap: 0.3rem; }
+      nav { flex-direction: column; align-items: stretch; gap: 0.3rem; }
+      nav .left { flex-direction: column; align-items: stretch; gap: 0.25rem; }
       .nav-links { justify-content: center; }
-      nav .right { justify-content: center; }
-      .container { padding: 1rem; }
-      .hero h2 { font-size: 1.5rem; }
+      nav .right { justify-content: center; flex-wrap: wrap; }
+      .container { padding: 0.8rem; }
+      .hero h2 { font-size: 1.4rem; }
+      .product-detail { grid-template-columns: 1fr; }
+      .product-detail .pd-img { min-height: 200px; font-size: 3.5rem; }
+      .product-detail .pd-body { padding: 1.2rem; }
     }
   </style>
 </head>
@@ -232,6 +292,7 @@
       <h1 onclick="navigate('home')">Tech<span>Mart</span></h1>
       <div class="nav-links">
         <a class="active" onclick="navigate('home')" data-page="home">Home</a>
+        <a onclick="navigate('products')" data-page="products">Products</a>
         <a onclick="navigate('services')" data-page="services">Services</a>
         <a onclick="navigate('contact')" data-page="contact">Contact</a>
         <a onclick="navigate('orders')" data-page="orders">Orders</a>
@@ -240,7 +301,7 @@
     <div class="right">
       <div class="badge">
         <span class="dot green" id="statusDot"></span>
-        <span id="statusText">Connected</span>
+        <span id="statusText">Live</span>
       </div>
       <div id="userArea"></div>
       <button class="cart-btn" onclick="navigate('cart')">
@@ -250,142 +311,100 @@
   </nav>
 
   <div class="container">
+
+    <!-- HOME -->
     <div id="page-home" class="page active">
       <div class="hero">
-        <h2>&#128722; Product Catalog</h2>
-        <p>Browse our curated collection of electronics and accessories</p>
+        <h2>&#128293; Welcome to TechMart</h2>
+        <p>Your one-stop shop for premium tech gear</p>
       </div>
       <div class="stats">
-        <div class="stat-card">
-          <div class="num" id="totalProducts">—</div>
-          <div class="label">Products</div>
-        </div>
-        <div class="stat-card">
-          <div class="num" id="totalStock">—</div>
-          <div class="label">Total Stock</div>
-        </div>
-        <div class="stat-card">
-          <div class="num" id="categories">—</div>
-          <div class="label">Categories</div>
-        </div>
+        <div class="stat-card"><div class="num" id="h_totalProd">—</div><div class="label">Products</div></div>
+        <div class="stat-card"><div class="num" id="h_totalStock">—</div><div class="label">Items in Stock</div></div>
+        <div class="stat-card"><div class="num" id="h_categories">—</div><div class="label">Categories</div></div>
       </div>
-      <div class="filters" id="filters">
+      <div class="home-categories" id="homeCategories"></div>
+      <div style="text-align:center;margin-bottom:0.8rem"><a onclick="navigate('products')" style="color:#0f3460;cursor:pointer;font-weight:600;font-size:0.9rem">Browse Full Catalog &rarr;</a></div>
+      <h3 style="margin-bottom:0.8rem;font-size:1.1rem">&#127775; Featured Products</h3>
+      <div class="featured-grid" id="featuredGrid">
+        <div class="loading"><div class="spinner"></div></div>
+      </div>
+      <div class="quick-links">
+        <a onclick="navigate('products')">&#128722; Shop All</a>
+        <a onclick="navigate('services')">&#128295; Our Services</a>
+        <a onclick="navigate('contact')">&#128222; Contact Us</a>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div id="page-products" class="page">
+      <div class="hero">
+        <h2>&#128722; All Products</h2>
+        <p>Browse our full catalog of electronics, accessories, and furniture</p>
+      </div>
+      <div class="flex-between">
+        <div class="result-count" id="resultCount"></div>
+      </div>
+      <div class="filters" id="productFilters">
         <button class="active" data-category="all">All</button>
       </div>
-      <div id="grid" class="grid">
+      <div id="productGrid" class="grid">
         <div class="loading"><div class="spinner"></div>Loading products...</div>
       </div>
     </div>
 
+    <!-- PRODUCT DETAIL -->
+    <div id="page-product" class="page">
+      <a class="back-btn" onclick="navigate('products')">&larr; Back to Products</a>
+      <div id="productDetail"><div class="loading"><div class="spinner"></div>Loading product...</div></div>
+    </div>
+
+    <!-- SERVICES -->
     <div id="page-services" class="page">
-      <div class="hero">
-        <h2>&#128295; Our Services</h2>
-        <p>Professional tech solutions for your business</p>
-      </div>
+      <div class="hero"><h2>&#128295; Our Services</h2><p>Professional tech solutions for your business</p></div>
       <div class="services-grid">
-        <div class="service-card">
-          <div class="ic">&#128187;</div>
-          <h3>IT Consulting</h3>
-          <p>Expert guidance on infrastructure architecture, cloud migration, and digital transformation strategies tailored to your business needs.</p>
-        </div>
-        <div class="service-card">
-          <div class="ic">&#9729;&#65039;</div>
-          <h3>Cloud Solutions</h3>
-          <p>Design, deployment, and management of cloud infrastructure on AWS, Azure, and GCP with automated CI/CD pipelines and monitoring.</p>
-        </div>
-        <div class="service-card">
-          <div class="ic">&#128274;</div>
-          <h3>Cybersecurity</h3>
-          <p>Comprehensive security audits, penetration testing, network security policies, and compliance with industry standards.</p>
-        </div>
-        <div class="service-card">
-          <div class="ic">&#128200;</div>
-          <h3>DevOps &amp; SRE</h3>
-          <p>Containerization with Docker &amp; Kubernetes, infrastructure as code with Terraform &amp; Ansible, monitoring with Prometheus &amp; Grafana.</p>
-        </div>
-        <div class="service-card">
-          <div class="ic">&#128109;</div>
-          <h3>Managed Support</h3>
-          <p>24/7 monitoring, incident response, and proactive maintenance for your production systems with guaranteed SLAs.</p>
-        </div>
-        <div class="service-card">
-          <div class="ic">&#128218;</div>
-          <h3>Training &amp; Workshops</h3>
-          <p>Hands-on training in Kubernetes, Docker, CI/CD, monitoring, and cloud technologies for your engineering team.</p>
-        </div>
+        <div class="service-card"><div class="ic">&#128187;</div><h3>IT Consulting</h3><p>Expert guidance on infrastructure architecture, cloud migration, and digital transformation strategies tailored to your business needs.</p></div>
+        <div class="service-card"><div class="ic">&#9729;&#65039;</div><h3>Cloud Solutions</h3><p>Design, deployment, and management of cloud infrastructure on AWS, Azure, and GCP with automated CI/CD pipelines and monitoring.</p></div>
+        <div class="service-card"><div class="ic">&#128274;</div><h3>Cybersecurity</h3><p>Comprehensive security audits, penetration testing, network security policies, and compliance with industry standards.</p></div>
+        <div class="service-card"><div class="ic">&#128200;</div><h3>DevOps &amp; SRE</h3><p>Containerization with Docker &amp; Kubernetes, infrastructure as code with Terraform &amp; Ansible, monitoring with Prometheus &amp; Grafana.</p></div>
+        <div class="service-card"><div class="ic">&#128109;</div><h3>Managed Support</h3><p>24/7 monitoring, incident response, and proactive maintenance for your production systems with guaranteed SLAs.</p></div>
+        <div class="service-card"><div class="ic">&#128218;</div><h3>Training &amp; Workshops</h3><p>Hands-on training in Kubernetes, Docker, CI/CD, monitoring, and cloud technologies for your engineering team.</p></div>
       </div>
     </div>
 
+    <!-- CONTACT -->
     <div id="page-contact" class="page">
-      <div class="hero">
-        <h2>&#128222; Contact Us</h2>
-        <p>Get in touch with our team</p>
-      </div>
+      <div class="hero"><h2>&#128222; Contact Us</h2><p>Get in touch with our team</p></div>
       <div class="contact-info">
-        <div class="info-card">
-          <div class="ic">&#128231;</div>
-          <h4>Email</h4>
-          <p>support@techmart.io</p>
-        </div>
-        <div class="info-card">
-          <div class="ic">&#128222;</div>
-          <h4>Phone</h4>
-          <p>+1 (555) 123-4567</p>
-        </div>
-        <div class="info-card">
-          <div class="ic">&#128205;</div>
-          <h4>Location</h4>
-          <p>San Francisco, CA</p>
-        </div>
-        <div class="info-card">
-          <div class="ic">&#128338;</div>
-          <h4>Hours</h4>
-          <p>Mon–Fri, 9AM–6PM PST</p>
-        </div>
+        <div class="info-card"><div class="ic">&#128231;</div><h4>Email</h4><p>support@techmart.io</p></div>
+        <div class="info-card"><div class="ic">&#128222;</div><h4>Phone</h4><p>+1 (555) 123-4567</p></div>
+        <div class="info-card"><div class="ic">&#128205;</div><h4>Location</h4><p>San Francisco, CA</p></div>
+        <div class="info-card"><div class="ic">&#128338;</div><h4>Hours</h4><p>Mon&#8211;Fri, 9AM&#8211;6PM PST</p></div>
       </div>
-      <form id="contactForm" style="margin-top: 1.5rem;">
-        <div class="form-group">
-          <label for="contactName">Name</label>
-          <input type="text" id="contactName" required placeholder="Your name" />
-        </div>
-        <div class="form-group">
-          <label for="contactEmail">Email</label>
-          <input type="email" id="contactEmail" required placeholder="your@email.com" />
-        </div>
-        <div class="form-group">
-          <label for="contactMessage">Message</label>
-          <textarea id="contactMessage" rows="4" required placeholder="How can we help?"></textarea>
-        </div>
+      <form id="contactForm" style="margin-top:1.2rem">
+        <div class="form-group"><label for="contactName">Name</label><input type="text" id="contactName" required placeholder="Your name" /></div>
+        <div class="form-group"><label for="contactEmail">Email</label><input type="email" id="contactEmail" required placeholder="your@email.com" /></div>
+        <div class="form-group"><label for="contactMessage">Message</label><textarea id="contactMessage" rows="4" required placeholder="How can we help?"></textarea></div>
         <button type="submit" class="btn btn-primary" style="width:100%">Send Message</button>
       </form>
     </div>
 
+    <!-- CART -->
     <div id="page-cart" class="page">
-      <div class="hero" style="padding-bottom:0.5rem">
-        <h2>&#128722; Your Cart</h2>
-        <p>Review and checkout your items</p>
-      </div>
-      <div id="cartContent">
-        <div class="empty-state"><div class="big">&#128722;</div><p>Your cart is empty</p></div>
-      </div>
+      <div class="hero" style="padding-bottom:0.3rem"><h2>&#128722; Your Cart</h2><p>Review and checkout your items</p></div>
+      <div id="cartContent"><div class="empty-state"><div class="big">&#128722;</div><p>Your cart is empty</p></div></div>
     </div>
 
+    <!-- ORDERS -->
     <div id="page-orders" class="page">
-      <div class="hero" style="padding-bottom:0.5rem">
-        <h2>&#128230; Your Orders</h2>
-        <p>Order history and status</p>
-      </div>
-      <div id="ordersContent">
-        <div class="empty-state"><div class="big">&#128203;</div><p>Sign in to view your orders</p></div>
-      </div>
+      <div class="hero" style="padding-bottom:0.3rem"><h2>&#128230; Your Orders</h2><p>Order history and status</p></div>
+      <div id="ordersContent"><div class="empty-state"><div class="big">&#128203;</div><p>Sign in to view your orders</p></div></div>
     </div>
+
   </div>
 
   <div id="toast" class="toast"></div>
-
-  <footer>
-    Tech<span>Mart</span> &mdash; DevOps Troubleshooting Lab &bull; Built with &#10084;&#65039;
-  </footer>
+  <footer>Tech<span>Mart</span> &mdash; DevOps Troubleshooting Lab &bull; Built with &#10084;&#65039;</footer>
 
   <script>
     const API = '/api';
@@ -394,16 +413,22 @@
     let currentCategory = 'all';
 
     const icons = {
-      'Electronics': '&#128187;', 'Accessories': '&#128268;',
+      'Electronics': '&#128187;',
+      'Accessories': '&#128268;',
+      'Furniture': '&#128188;',
       'default': '&#128230;'
     };
-
-    const emoji = c => icons[c] || icons.default;
+    const catEmoji = c => icons[c] || icons.default;
+    const catColors = {
+      'Electronics': '#667eea',
+      'Accessories': '#764ba2',
+      'Furniture': '#e94560'
+    };
+    const catGrad = c => catColors[c] || '#667eea';
 
     function toast(msg, type) {
       const el = document.getElementById('toast');
-      el.textContent = msg;
-      el.className = 'toast ' + type + ' show';
+      el.textContent = msg; el.className = 'toast ' + type + ' show';
       setTimeout(() => el.classList.remove('show'), 3500);
     }
 
@@ -415,9 +440,15 @@
       const link = document.querySelector('.nav-links a[data-page="' + page + '"]');
       if (link) link.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (page === 'home') loadProducts(currentCategory);
+      if (page === 'home') loadHome();
+      if (page === 'products') loadProducts(currentCategory);
       if (page === 'cart') loadCart();
       if (page === 'orders') loadOrders();
+    }
+
+    function openProduct(id) {
+      navigate('product');
+      loadProductDetail(id);
     }
 
     function getStockLabel(stock) {
@@ -426,48 +457,68 @@
       return 'low';
     }
 
-    function renderCard(product) {
-      const inCart = (currentUser && (cartProducts[product.id] || 0) > 0);
-      return '<div class="card">' +
-        '<div class="card-img">' + emoji(product.category) + '</div>' +
+    function renderCard(product, clickable) {
+      return '<div class="card" onclick="' + (clickable ? 'openProduct(' + product.id + ')' : '') + '">' +
+        '<div class="card-img" style="background:linear-gradient(135deg,' + catGrad(product.category) + ' 0%,' + catGrad(product.category) + '55 100%)">' +
+        catEmoji(product.category) + '</div>' +
         '<div class="card-body">' +
         '<span class="category-tag">' + product.category + '</span>' +
         '<h3>' + product.name + '</h3>' +
         '<div class="desc">' + product.description + '</div>' +
         '<div class="card-footer">' +
         '<span class="price">$' + parseFloat(product.price).toFixed(2) + '</span>' +
-        '<span class="stock ' + getStockLabel(product.stock) + '">' + product.stock + ' in stock</span>' +
+        '<span class="stock ' + getStockLabel(product.stock) + '">' + product.stock + ' left</span>' +
         '</div>' +
         (currentUser
-          ? '<button class="add-cart-btn" onclick="addToCart(' + product.id + ', \'' + product.name.replace(/'/g, "\\'") + '\')" ' +
+          ? '<button class="add-cart-btn" onclick="event.stopPropagation();addToCart(' + product.id + ',\'' + product.name.replace(/'/g, "\\'") + '\')" ' +
             (product.stock < 1 ? 'disabled' : '') + '>' +
-            (product.stock < 1 ? 'Out of Stock' : (inCart ? 'Add More' : 'Add to Cart')) + '</button>'
-          : '<button class="add-cart-btn" onclick="navigate(\'home\'); loginFirst()">Sign In to Buy</button>') +
+            (product.stock < 1 ? 'Out of Stock' : 'Add to Cart') + '</button>'
+          : '<button class="add-cart-btn" onclick="event.stopPropagation();showAuth()">Sign In to Buy</button>') +
         '</div></div>';
     }
 
     let cartProducts = {};
 
+    async function loadHome() {
+      try {
+        const res = await fetch(API + '/products');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const prods = await res.json();
+        document.getElementById('h_totalProd').textContent = prods.length;
+        document.getElementById('h_totalStock').textContent = prods.reduce((s, p) => s + p.stock, 0);
+        const cats = [...new Set(prods.map(p => p.category))];
+        document.getElementById('h_categories').textContent = cats.length;
+
+        const catBar = document.getElementById('homeCategories');
+        catBar.innerHTML = cats.map(c => '<span class="cat-pill" onclick="navigate(\'products\')">' + catEmoji(c) + ' ' + c + '</span>').join('');
+
+        const featured = prods.sort(() => Math.random() - 0.5).slice(0, 8);
+        document.getElementById('featuredGrid').innerHTML = featured.map(p =>
+          '<div class="featured-card" onclick="openProduct(' + p.id + ')">' +
+          '<div class="ic">' + catEmoji(p.category) + '</div>' +
+          '<h4>' + p.name + '</h4>' +
+          '<div class="p">$' + parseFloat(p.price).toFixed(2) + '</div>' +
+          '</div>'
+        ).join('');
+      } catch (_) {}
+    }
+
     async function loadProducts(category) {
       currentCategory = category;
-      const grid = document.getElementById('grid');
+      const grid = document.getElementById('productGrid');
       grid.innerHTML = '<div class="loading"><div class="spinner"></div>Loading products...</div>';
       try {
         const res = await fetch(API + '/products');
         if (!res.ok) throw new Error('HTTP ' + res.status);
         productsCache = await res.json();
         const filtered = category === 'all' ? productsCache : productsCache.filter(p => p.category === category);
-
-        document.getElementById('totalProducts').textContent = productsCache.length;
-        document.getElementById('totalStock').textContent = productsCache.reduce((s, p) => s + p.stock, 0);
         const cats = [...new Set(productsCache.map(p => p.category))];
-        document.getElementById('categories').textContent = cats.length;
 
-        const filterBar = document.getElementById('filters');
+        const filterBar = document.getElementById('productFilters');
         filterBar.innerHTML = '<button class="active" data-category="all">All</button>';
         cats.forEach(c => {
           const btn = document.createElement('button');
-          btn.textContent = c;
+          btn.textContent = catEmoji(c) + ' ' + c + ' (' + productsCache.filter(p => p.category === c).length + ')';
           btn.dataset.category = c;
           filterBar.appendChild(btn);
         });
@@ -479,23 +530,76 @@
           });
         });
 
+        document.getElementById('resultCount').textContent = filtered.length + ' of ' + productsCache.length + ' products';
+
         if (filtered.length === 0) {
           grid.innerHTML = '<div class="loading">No products in this category</div>';
         } else {
           filtered.sort((a, b) => a.name.localeCompare(b.name));
-          grid.innerHTML = filtered.map(renderCard).join('');
+          grid.innerHTML = filtered.map(p => renderCard(p, true)).join('');
         }
-        document.getElementById('statusText').textContent = 'Connected';
-        document.getElementById('statusDot').className = 'dot green';
       } catch (err) {
         grid.innerHTML = '<div class="error-state"><div class="icon">&#9888;&#65039;</div><h3>Could not load products</h3><p>' + err.message + '</p></div>';
-        document.getElementById('statusText').textContent = 'Disconnected';
-        document.getElementById('statusDot').className = 'dot red';
       }
     }
 
-    function loginFirst() {
-      showAuth();
+    async function loadProductDetail(id) {
+      const el = document.getElementById('productDetail');
+      el.innerHTML = '<div class="loading"><div class="spinner"></div>Loading product...</div>';
+      try {
+        const res = await fetch(API + '/products/' + id);
+        if (!res.ok) throw new Error('Product not found');
+        const p = await res.json();
+        const qtyOpts = Array.from({length: Math.min(p.stock, 10)}, (_, i) =>
+          '<option value="' + (i+1) + '">' + (i+1) + '</option>'
+        ).join('');
+        el.innerHTML =
+          '<div class="product-detail">' +
+          '<div class="pd-img">' + catEmoji(p.category) + '</div>' +
+          '<div class="pd-body">' +
+          '<span class="category-tag">' + p.category + '</span>' +
+          '<h2>' + p.name + '</h2>' +
+          '<div class="pd-desc">' + p.description + '</div>' +
+          '<div class="pd-meta">' +
+          '<div class="pd-field"><div class="label">Price</div><div class="value">$' + parseFloat(p.price).toFixed(2) + '</div></div>' +
+          '<div class="pd-field"><div class="label">Stock</div><div class="value" style="color:' + (p.stock < 10 ? '#e74c3c' : p.stock < 30 ? '#b7950b' : '#1e8449') + '">' + p.stock + ' units</div></div>' +
+          '</div>' +
+          (currentUser ? '<div class="pd-qty"><label>Quantity:</label><select id="detailQty">' + qtyOpts + '</select></div>' : '') +
+          '<div class="pd-actions">' +
+          (currentUser
+            ? '<button class="btn btn-primary" onclick="addToCartDetail(' + p.id + ',\'' + p.name.replace(/'/g, "\\'") + '\')">&#128722; Add to Cart</button>'
+            : '<button class="btn btn-primary" onclick="showAuth()">&#128100; Sign In to Buy</button>') +
+          '<button class="btn" style="background:#eee" onclick="navigate(\'products\')">Back to Catalog</button>' +
+          '</div></div></div>';
+      } catch (err) {
+        el.innerHTML = '<div class="error-state"><div class="icon">&#9888;&#65039;</div><p>' + err.message + '</p></div>';
+      }
+    }
+
+    async function addToCartDetail(productId, productName) {
+      const qty = parseInt(document.getElementById('detailQty').value);
+      try {
+        const res = await fetch(API + '/cart', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: currentUser.id, product_id: productId, quantity: qty })
+        });
+        if (!res.ok) throw new Error('Failed to add to cart');
+        toast('Added ' + qty + 'x ' + productName + ' to cart', 'success');
+        updateCartCount();
+      } catch (err) { toast(err.message, 'error'); }
+    }
+
+    async function addToCart(productId, productName) {
+      if (!currentUser) { showAuth(); return; }
+      try {
+        const res = await fetch(API + '/cart', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: currentUser.id, product_id: productId, quantity: 1 })
+        });
+        if (!res.ok) throw new Error('Failed to add to cart');
+        toast('Added ' + productName + ' to cart', 'success');
+        updateCartCount();
+      } catch (err) { toast(err.message, 'error'); }
     }
 
     function updateUserUI() {
@@ -507,13 +611,6 @@
         area.innerHTML = '<button class="btn btn-sm btn-success" onclick="showAuth()">Sign In</button>';
       }
       updateCartCount();
-      const activePage = document.querySelector('.page.active');
-      if (activePage) {
-        const id = activePage.id;
-        if (id === 'page-home') loadProducts(currentCategory);
-        if (id === 'page-cart') loadCart();
-        if (id === 'page-orders') loadOrders();
-      }
     }
 
     function showAuth() {
@@ -522,21 +619,16 @@
       let el = document.getElementById('page-auth');
       if (!el) {
         el = document.createElement('div');
-        el.id = 'page-auth';
-        el.className = 'page';
+        el.id = 'page-auth'; el.className = 'page';
         el.innerHTML =
           '<div class="hero"><h2>&#128100; Account</h2><p>Sign in or create an account</p></div>' +
           '<div class="auth-form" id="authForm">' +
           '<h3 id="authTitle">Sign In</h3>' +
-          '<div class="form-group"><label>Name</label><input type="text" id="authName" placeholder="Your name" /></div>' +
           '<div class="form-group"><label>Email</label><input type="email" id="authEmail" placeholder="your@email.com" /></div>' +
           '<div class="form-group"><label>Password</label><input type="password" id="authPassword" placeholder="Password" /></div>' +
           '<div class="form-group" id="authNameGroup" style="display:none"><label>Name</label><input type="text" id="authName" placeholder="Your name" /></div>' +
           '<button class="btn btn-primary" style="width:100%" id="authSubmitBtn" onclick="handleAuth()">Sign In</button>' +
-          '<div class="toggle" id="authToggle">' +
-          "Don't have an account? <a onclick='toggleAuthMode()'>Register</a>" +
-          '</div>' +
-          '</div>';
+          '<div class="toggle" id="authToggle">Don\'t have an account? <a onclick="toggleAuthMode()">Register</a></div></div>';
         document.querySelector('.container').appendChild(el);
       }
       el.classList.add('active');
@@ -551,8 +643,7 @@
       document.getElementById('authToggle').innerHTML = authMode === 'login'
         ? "Don't have an account? <a onclick='toggleAuthMode()'>Register</a>"
         : "Already have an account? <a onclick='toggleAuthMode()'>Sign In</a>";
-      const ng = document.getElementById('authNameGroup');
-      ng.style.display = authMode === 'register' ? 'block' : 'none';
+      document.getElementById('authNameGroup').style.display = authMode === 'register' ? 'block' : 'none';
     }
 
     async function handleAuth() {
@@ -560,8 +651,7 @@
       const password = document.getElementById('authPassword').value.trim();
       if (!email || !password) { toast('Please fill all fields', 'error'); return; }
       const btn = document.getElementById('authSubmitBtn');
-      btn.disabled = true;
-      btn.textContent = 'Please wait...';
+      btn.disabled = true; btn.textContent = 'Please wait...';
       try {
         if (authMode === 'login') {
           const res = await fetch(API + '/users/login', {
@@ -584,39 +674,14 @@
           localStorage.setItem('techmart_user', JSON.stringify(currentUser));
           toast('Account created! Welcome, ' + currentUser.name + '!', 'success');
         }
-        updateUserUI();
-        navigate('home');
-      } catch (err) {
-        toast(err.message, 'error');
-      }
-      btn.disabled = false;
-      btn.textContent = authMode === 'login' ? 'Sign In' : 'Register';
+        updateUserUI(); navigate('home');
+      } catch (err) { toast(err.message, 'error'); }
+      btn.disabled = false; btn.textContent = authMode === 'login' ? 'Sign In' : 'Register';
     }
 
     function logout() {
-      currentUser = null;
-      localStorage.removeItem('techmart_user');
-      toast('Logged out', 'success');
-      updateUserUI();
-      navigate('home');
-    }
-
-    async function addToCart(productId, productName) {
-      if (!currentUser) { showAuth(); return; }
-      const qty = 1;
-      try {
-        const res = await fetch(API + '/cart', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user_id: currentUser.id, product_id: productId, quantity: qty })
-        });
-        if (!res.ok) throw new Error('Failed to add to cart');
-        toast('Added ' + productName + ' to cart', 'success');
-        loadProducts(currentCategory);
-        updateCartCount();
-        loadCartCount();
-      } catch (err) {
-        toast(err.message, 'error');
-      }
+      currentUser = null; localStorage.removeItem('techmart_user');
+      toast('Logged out', 'success'); updateUserUI(); navigate('home');
     }
 
     async function updateCartCount() {
@@ -626,8 +691,7 @@
         const res = await fetch(API + '/cart/' + currentUser.id);
         if (res.ok) {
           const items = await res.json();
-          const total = items.reduce((s, i) => s + parseInt(i.quantity), 0);
-          el.textContent = total;
+          el.textContent = items.reduce((s, i) => s + parseInt(i.quantity), 0);
         }
       } catch (_) {}
     }
@@ -644,38 +708,26 @@
         if (!res.ok) throw new Error('Failed to load cart');
         cartItems = await res.json();
         if (cartItems.length === 0) {
-          el.innerHTML = '<div class="empty-state"><div class="big">&#128722;</div><p>Your cart is empty. <a onclick="navigate(\'home\')" style="color:#0f3460;cursor:pointer;text-decoration:underline">Browse products</a></p></div>';
-          updateCartCount();
-          return;
+          el.innerHTML = '<div class="empty-state"><div class="big">&#128722;</div><p>Your cart is empty. <a onclick="navigate(\'products\')" style="color:#0f3460;cursor:pointer;text-decoration:underline">Browse products</a></p></div>';
+          updateCartCount(); return;
         }
         const total = cartItems.reduce((s, i) => s + parseFloat(i.price) * parseInt(i.quantity), 0);
-        let html = '<div class="flex-between" style="margin-bottom:1rem"><span style="font-size:0.9rem;color:#888">' + cartItems.length + ' item(s)</span>';
-        html += '<span style="font-weight:700;font-size:1.1rem;color:#0f3460">Total: $' + total.toFixed(2) + '</span></div>';
-        html += '<table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th></th></tr></thead><tbody>';
+        let html = '<div class="flex-between" style="margin-bottom:0.8rem"><span style="font-size:0.85rem;color:#888">' + cartItems.length + ' item(s)</span>';
+        html += '<span style="font-weight:700;font-size:1.05rem;color:#0f3460">Total: $' + total.toFixed(2) + '</span></div>';
+        html += '<table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead><tbody>';
         for (const item of cartItems) {
           const sub = parseFloat(item.price) * parseInt(item.quantity);
-          html += '<tr>' +
-            '<td><strong>' + item.name + '</strong></td>' +
-            '<td>' + (item.category || '—') + '</td>' +
+          html += '<tr><td><strong>' + item.name + '</strong></td><td>' + (item.category || '—') + '</td>' +
             '<td>$' + parseFloat(item.price).toFixed(2) + '</td>' +
-            '<td><div class="qty-controls">' +
-            '<button onclick="updateCartQty(' + item.id + ', -1)">−</button>' +
-            '<span>' + item.quantity + '</span>' +
-            '<button onclick="updateCartQty(' + item.id + ', 1)">+</button>' +
-            '</div></td>' +
+            '<td><div class="qty-controls"><button onclick="updateCartQty(' + item.id + ',-1)">−</button><span>' + item.quantity + '</span><button onclick="updateCartQty(' + item.id + ',1)">+</button></div></td>' +
             '<td>$' + sub.toFixed(2) + '</td>' +
-            '<td><button class="btn btn-sm btn-danger" onclick="removeCartItem(' + item.id + ')">Remove</button></td>' +
-            '</tr>';
+            '<td><button class="btn btn-sm btn-danger" onclick="removeCartItem(' + item.id + ')">Remove</button></td></tr>';
         }
         html += '</tbody></table>';
-        html += '<div style="text-align:right;margin-top:1rem">' +
-          '<button class="btn btn-success" onclick="checkout()" style="padding:0.7rem 2rem;font-size:1rem">&#128179; Place Order ($' + total.toFixed(2) + ')</button>' +
-          '</div>';
-        el.innerHTML = html;
-        updateCartCount();
-      } catch (err) {
-        el.innerHTML = '<div class="error-state"><div class="icon">&#9888;&#65039;</div><p>' + err.message + '</p></div>';
-      }
+        html += '<div style="text-align:right;margin-top:0.8rem">' +
+          '<button class="btn btn-success" onclick="checkout()" style="padding:0.6rem 1.8rem;font-size:0.95rem">&#128179; Place Order ($' + total.toFixed(2) + ')</button></div>';
+        el.innerHTML = html; updateCartCount();
+      } catch (err) { el.innerHTML = '<div class="error-state"><div class="icon">&#9888;&#65039;</div><p>' + err.message + '</p></div>'; }
     }
 
     async function updateCartQty(cartId, delta) {
@@ -689,26 +741,15 @@
           body: JSON.stringify({ quantity: newQty })
         });
         if (!res.ok) throw new Error('Update failed');
-        toast('Quantity updated', 'success');
         loadCart();
-      } catch (err) {
-        toast(err.message, 'error');
-      }
+      } catch (err) { toast(err.message, 'error'); }
     }
 
     async function removeCartItem(cartId) {
       try {
-        const res = await fetch(API + '/cart/' + cartId, { method: 'DELETE' });
-        if (!res.ok) throw new Error('Remove failed');
-        toast('Item removed', 'success');
-        loadCart();
-        updateCartCount();
-        if (document.getElementById('page-home').classList.contains('active')) {
-          loadProducts(currentCategory);
-        }
-      } catch (err) {
-        toast(err.message, 'error');
-      }
+        await fetch(API + '/cart/' + cartId, { method: 'DELETE' });
+        toast('Item removed', 'success'); loadCart(); updateCartCount();
+      } catch (err) { toast(err.message, 'error'); }
     }
 
     async function checkout() {
@@ -721,12 +762,8 @@
         if (!res.ok) { const e = await res.json(); throw new Error(e.error || 'Checkout failed'); }
         const order = await res.json();
         toast('Order #' + order.id + ' placed! Total: $' + parseFloat(order.total).toFixed(2), 'success');
-        loadCart();
-        updateCartCount();
-        document.getElementById('cartCount').textContent = '0';
-      } catch (err) {
-        toast(err.message, 'error');
-      }
+        loadCart(); updateCartCount(); document.getElementById('cartCount').textContent = '0';
+      } catch (err) { toast(err.message, 'error'); }
     }
 
     async function loadOrders() {
@@ -740,36 +777,27 @@
         if (!res.ok) throw new Error('Failed to load orders');
         const orders = await res.json();
         if (orders.length === 0) {
-          el.innerHTML = '<div class="empty-state"><div class="big">&#128230;</div><p>No orders yet. <a onclick="navigate(\'home\')" style="color:#0f3460;cursor:pointer;text-decoration:underline">Start shopping</a></p></div>';
+          el.innerHTML = '<div class="empty-state"><div class="big">&#128230;</div><p>No orders yet. <a onclick="navigate(\'products\')" style="color:#0f3460;cursor:pointer;text-decoration:underline">Start shopping</a></p></div>';
           return;
         }
         let html = '';
         for (const order of orders) {
           html += '<div class="order-card">' +
-            '<div class="order-header">' +
-            '<span>Order #' + order.id + '</span>' +
-            '<span>' + new Date(order.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }) + '</span>' +
-            '</div>' +
+            '<div class="order-header"><span>Order #' + order.id + '</span><span>' + new Date(order.created_at).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' }) + '</span></div>' +
             '<ul class="order-items">';
-          let itemTotal = 0;
           for (const item of order.items) {
             const sub = parseFloat(item.price) * parseInt(item.quantity);
-            itemTotal += sub;
-            html += '<li><span>' + item.name + ' <span style="color:#888;font-size:0.8rem">x' + item.quantity + '</span></span><span>$' + sub.toFixed(2) + '</span></li>';
+            html += '<li><span>' + item.name + ' <span style="color:#888;font-size:0.78rem">x' + item.quantity + '</span></span><span>$' + sub.toFixed(2) + '</span></li>';
           }
-          html += '</ul>' +
-            '<div style="text-align:right;margin-top:0.5rem;padding-top:0.5rem;border-top:1px solid #f0f0f0">' +
-            '<span class="order-total">Total: $' + parseFloat(order.total).toFixed(2) + '</span>' +
-            '</div></div>';
+          html += '</ul><div style="text-align:right;margin-top:0.4rem;padding-top:0.4rem;border-top:1px solid #f0f0f0">' +
+            '<span class="order-total">Total: $' + parseFloat(order.total).toFixed(2) + '</span></div></div>';
         }
         el.innerHTML = html;
-      } catch (err) {
-        el.innerHTML = '<div class="error-state"><div class="icon">&#9888;&#65039;</div><p>' + err.message + '</p></div>';
-      }
+      } catch (err) { el.innerHTML = '<div class="error-state"><div class="icon">&#9888;&#65039;</div><p>' + err.message + '</p></div>'; }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      loadProducts('all');
+      loadHome();
       updateUserUI();
       updateCartCount();
       document.getElementById('contactForm').addEventListener('submit', function(e) {
