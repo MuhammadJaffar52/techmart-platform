@@ -20,9 +20,9 @@
 ## What's Running (24 Pods, 4 Namespaces)
 
 ### techmart namespace — The App
-- `techmart-frontend` — React SPA served by Nginx, product catalog with category filters + live status
+- `techmart-frontend` — Full SPA (Nginx) with 6 pages: Home (featured grid), Products (28 items, category filters), Services, Contact (form), Cart (qty +/‑, checkout), Orders (history). All pages backed by live API.
 - `techmart-api` x2 — Express API with /health, /metrics, full CRUD
-- `postgres` — PostgreSQL with schema + 8 seed products
+- `postgres` — PostgreSQL with schema + 28 seed products
 
 ### monitoring namespace — Visualization
 - `grafana` — Dashboard UI (auto-configured Prometheus + Loki datasources)
@@ -89,15 +89,13 @@ kubectl exec -n monitoring deploy/grafana -- wget -qO- --timeout=3 http://promet
 
 ### Layer 10 — Port Forwards (for your browser)
 ```bash
-# TechMart Frontend (product catalog UI)
-kubectl port-forward -n techmart svc/techmart-frontend-service 8080:80
-# → http://localhost:8080
+# RECOMMENDED — Full app through Ingress (frontend + API same origin)
+kubectl port-forward --address 0.0.0.0 -n ingress-nginx svc/ingress-nginx-controller 8090:80
+# → http://localhost:8090  (all features work)
 
-# TechMart API
+# TechMart API (direct)
 kubectl port-forward -n techmart svc/techmart-service 3000:3000
-# → http://localhost:3000/health
 # → http://localhost:3000/api/products
-# → http://localhost:3000/api/products/1
 
 # Grafana dashboard
 kubectl port-forward -n monitoring svc/grafana 3001:3000

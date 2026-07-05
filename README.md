@@ -26,7 +26,7 @@
 
 | What | Status |
 |---|---|
-| A Node.js/Express API + PostgreSQL app | ✅ Running on Kubernetes |
+| Full SPA frontend + Node.js API + PostgreSQL (28 products) | ✅ Running on Kubernetes |
 | Deployed on a 3-node KIND cluster | ✅ 1 control-plane + 2 workers |
 | Full monitoring stack (Prometheus, Grafana, Loki) | ✅ All integrated |
 | 30+ intentional error scenarios to practice troubleshooting | ✅ Ready to use |
@@ -45,16 +45,16 @@ cd techmart-platform
 bash scripts/setup.sh
 ```
 
-That's it. The script builds all Docker images, creates a 3-node Kubernetes cluster, deploys the full stack (frontend + API + database + monitoring + ingress controller), and verifies everything is healthy.
+That's it (takes ~5 minutes). The script builds all Docker images, creates a 3-node Kubernetes cluster, deploys the full stack (frontend + API + database + monitoring + ingress controller), seeds 28 products, and verifies everything is healthy.
 
 ### To access everything:
 
 ```bash
-# Terminal 1 — Frontend (attractive product catalog UI)
-kubectl port-forward -n techmart svc/techmart-frontend-service 8080:80
-# → http://localhost:8080
+# Terminal 1 — Full app (frontend + API through Ingress)
+kubectl port-forward --address 0.0.0.0 -n ingress-nginx svc/ingress-nginx-controller 8090:80
+# → http://localhost:8090  (products, cart, orders all work)
 
-# Terminal 2 — API
+# Terminal 2 — API (direct)
 kubectl port-forward -n techmart svc/techmart-service 3000:3000
 # → http://localhost:3000/api/products
 
@@ -76,9 +76,9 @@ bash scripts/teardown.sh
 ### The App
 | Component | What it does | Endpoints |
 |---|---|---|
-| **techmart-frontend** | React SPA served by Nginx | `/` — product catalog with filters, stats, live status |
+| **techmart-frontend** | Full SPA (Nginx) | 6 pages: Home, Products, Services, Contact, Cart, Orders — 28 products, live API integration |
 | **techmart-api** (x2 pods) | Node.js/Express CRUD API | `/health`, `/metrics`, `/api/products`, `/api/users`, `/api/cart`, `/api/orders` |
-| **postgres** | PostgreSQL 16 database | 5 tables, 8 seed products |
+| **postgres** | PostgreSQL 16 database | 5 tables, 28 seed products |
 
 ### The Infrastructure
 | Layer | Technology | Purpose |
@@ -172,16 +172,19 @@ kubectl get all -n techmart && kubectl get endpoints -n techmart
 # 5. Monitoring
 kubectl get all -n monitoring
 
-# 6. API health
+# 6. Ingress
+kubectl get ingress -n techmart
+
+# 7. API health
 kubectl exec -n techmart deploy/techmart-api -- node -e "const h=require('http');h.get('http://localhost:3000/health',r=>{let d='';r.on('data',c=>d+=c);r.on('end',()=>console.log(d))})"
 
-# 7. API metrics
-kubectl exec -n techmart deploy/techmart-api -- node -e "const h=require('http');h.get('http://localhost:3000/metrics',r=>{let d='';r.on('data',c=>d+=c);r.on('end',()=>console.log(d.slice(0,400)))})"
+# 8. API products count
+kubectl exec -n techmart deploy/techmart-api -- node -e "const h=require('http');h.get('http://localhost:3000/api/products',r=>{let d='';r.on('data',c=>d+=c);r.on('end',()=>console.log(JSON.parse(d).length+' products'))})"
 
-# 8. Frontend HTML
+# 9. Frontend HTML
 kubectl exec -n techmart deploy/techmart-frontend -- sh -c "cat /usr/share/nginx/html/index.html | head -3"
 
-# 9. Prometheus scraping
+# 10. Prometheus scraping
 kubectl exec -n monitoring deploy/prometheus -- wget -qO- --timeout=3 http://techmart-service.techmart:3000/health
 ```
 

@@ -8,13 +8,13 @@
 
 | Component | Status | Details |
 |---|---|---|
-| **Frontend** | ✅ Deployed on KIND | React SPA served by Nginx on port 80 — product catalog with filters, cart, live status |
+| **Frontend** | ✅ Deployed on KIND | Full SPA (Nginx) — 6 pages (Home, Products, Services, Contact, Cart, Orders), 28 products, auth, cart, order flow |
 | **Backend API** | ✅ Deployed on KIND | Node.js/Express on port 3000 — CRUD for products, users, cart, orders. Health at `/health` |
-| **PostgreSQL** | ✅ Deployed on KIND | 5 tables (`products`, `users`, `cart_items`, `orders`, `order_items`) + 8 seed products |
+| **PostgreSQL** | ✅ Deployed on KIND | 5 tables (`products`, `users`, `cart_items`, `orders`, `order_items`) + 28 seed products (3 categories) |
 | **Dockerfile** | ✅ Multi-stage | `app/backend/Dockerfile` — node:20-alpine, non-root user, healthcheck, .dockerignore |
 | **Docker Compose** | ✅ Built | `docker/docker-compose.yml` — backend + postgres with health checks, named volumes |
 | **KIND cluster** | ✅ Running | `techmart` — 1 control-plane + 2 workers |
-| **K8s manifests** | ✅ Deployed | `kubernetes/` — Namespace, ConfigMap, Secret, Deployment (x2), Service (x2), Ingress, PVC, Kustomize |
+| **K8s manifests** | ✅ Deployed | `kubernetes/` — Namespace, ConfigMap, Secret, Deployment (x3), Service (x3), Ingress, PVC, Kustomize |
 | **Helm chart** | ✅ Built | `helm/techmart/` — Chart.yaml, values.yaml, 8 templates, ready to install |
 | **CI/CD** | ✅ Built | `.github/workflows/deploy.yml` — lint → build → deploy to KIND |
 | **Terraform** | ✅ Built | `terraform/main.tf` — Docker provider for local infra |
@@ -28,12 +28,12 @@
 
 ### Git State
 ```
-123f034 — docs: add full DevOps error reference guide
-4319b42 — feat: backend API, DB schema, seed data, KIND cluster config
-2bf6cde — Initialize TechMart project structure
-
-Modified:  AGENTS.md, documentation/error-reference.md
-Untracked: app/backend/Dockerfile
+6e2f54c — fix: remove host restriction and rewrite-target from Ingress
+27ce04e — feat: add 20 more products (28 total), Products page, product detail
+c9f8563 — feat: full SPA frontend — cart, orders, services, contact, auth
+aa5ed9e — feat: add React frontend with Nginx, update Ingress
+5e6782d — docs: update all docs + setup for frontend deployment
+7dcec13 — docs: restructure README for clarity
 ```
 
 ---

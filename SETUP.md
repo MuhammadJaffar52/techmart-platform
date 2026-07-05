@@ -40,7 +40,7 @@ That single command:
 4. Creates a 3-node KIND cluster (1 control-plane + 2 workers)
 5. Loads images into all nodes
 6. Deploys all K8s manifests (Namespace, ConfigMap, Secret, Deployments, Services, Ingress, PVC)
-7. Initializes PostgreSQL schema (5 tables) + seed data (8 products)
+7. Seeds PostgreSQL with 28 products across 3 categories
 8. Deploys monitoring stack (Prometheus, Grafana, Loki, Promtail)
 9. Verifies API health + pod status
 
@@ -131,11 +131,11 @@ kubectl exec -n techmart deploy/techmart-api -- node -e "const h=require('http')
 ### Port forwards (for browser access)
 
 ```bash
-# Terminal 1 — Frontend (product catalog UI)
-kubectl port-forward -n techmart svc/techmart-frontend-service 8080:80
-# → http://localhost:8080
+# Terminal 1 — Full app through Ingress (frontend + API same origin)
+kubectl port-forward --address 0.0.0.0 -n ingress-nginx svc/ingress-nginx-controller 8090:80
+# → http://localhost:8090
 
-# Terminal 2 — TechMart API
+# Terminal 2 — TechMart API (direct)
 kubectl port-forward -n techmart svc/techmart-service 3000:3000
 # → http://localhost:3000/api/products
 
