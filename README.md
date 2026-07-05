@@ -45,22 +45,22 @@ cd techmart-platform
 bash scripts/setup.sh
 ```
 
-That's it. The script builds the Docker image, creates a 3-node Kubernetes cluster, deploys the app + database + monitoring stack, and verifies everything is healthy.
+That's it. The script builds all Docker images, creates a 3-node Kubernetes cluster, deploys the full stack (frontend + API + database + monitoring + ingress controller), and verifies everything is healthy.
 
-### To access the dashboards:
+### To access everything:
 
 ```bash
-# Terminal 1 — Grafana
-kubectl port-forward -n monitoring svc/grafana 3001:3000
-# → http://localhost:3001  (admin/admin)
+# Terminal 1 — Frontend (attractive product catalog UI)
+kubectl port-forward -n techmart svc/techmart-frontend-service 8080:80
+# → http://localhost:8080
 
-# Terminal 2 — Prometheus
-kubectl port-forward -n monitoring svc/prometheus 9090:9090
-# → http://localhost:9090
-
-# Terminal 3 — TechMart API
+# Terminal 2 — API
 kubectl port-forward -n techmart svc/techmart-service 3000:3000
 # → http://localhost:3000/api/products
+
+# Terminal 3 — Grafana
+kubectl port-forward -n monitoring svc/grafana 3001:3000
+# → http://localhost:3001  (admin/admin)
 ```
 
 ### To destroy everything:
@@ -76,6 +76,7 @@ bash scripts/teardown.sh
 ### The App
 | Component | What it does | Endpoints |
 |---|---|---|
+| **techmart-frontend** | React SPA served by Nginx | `/` — product catalog with filters, stats, live status |
 | **techmart-api** (x2 pods) | Node.js/Express CRUD API | `/health`, `/metrics`, `/api/products`, `/api/users`, `/api/cart`, `/api/orders` |
 | **postgres** | PostgreSQL 16 database | 5 tables, 8 seed products |
 
@@ -112,17 +113,17 @@ All scenarios in [`troubleshooting/scenarios.md`](troubleshooting/scenarios.md) 
 ## 🎯 Current Status (What's Running)
 
 ```
-📦 21 pods across 3 namespaces:
+📦 24 pods across 4 namespaces:
 
-techmart/             monitoring/           kube-system/
-├── techmart-api x2   ├── prometheus        ├── coredns x2
-├── postgres          ├── grafana           ├── etcd
-                      ├── loki              ├── kube-apiserver
-                      ├── promtail          ├── kube-controller-manager
-                                            ├── kube-scheduler
-                                            ├── kube-proxy x3
-                                            ├── kindnet x3
-                                            └── local-path-provisioner
+techmart/             monitoring/           ingress-nginx       kube-system/
+├── techmart-api x2   ├── prometheus        └── controller      ├── coredns x2
+├── postgres          ├── grafana                               ├── etcd
+├── techmart-frontend ├── loki                                  ├── kube-apiserver
+                      ├── promtail                              ├── kube-controller-manager
+                                                                ├── kube-scheduler
+                                                                ├── kube-proxy x3
+                                                                ├── kindnet x3
+                                                                └── local-path-provisioner
 ```
 
 ---
@@ -133,6 +134,7 @@ techmart/             monitoring/           kube-system/
 techmart-platform/
 ├── scripts/              → setup.sh + teardown.sh
 ├── app/backend/          → Node.js API + Dockerfile + DB schema
+├── app/frontend/         → React SPA (index.html) + Nginx Dockerfile
 ├── kubernetes/           → All K8s manifests (Kustomize)
 ├── helm/techmart/        → Helm chart (8 templates)
 ├── monitoring/           → Prometheus, Grafana, Loki, Promtail
@@ -156,7 +158,7 @@ Every file is defined as code. No manual steps. Clone and run.
 
 ```bash
 # 1. Docker
-docker ps && docker images techmart-api
+docker ps && docker images | grep -E "techmart-(api|frontend)"
 
 # 2. KIND cluster
 kind get clusters && kubectl get nodes -o wide
@@ -176,7 +178,10 @@ kubectl exec -n techmart deploy/techmart-api -- node -e "const h=require('http')
 # 7. API metrics
 kubectl exec -n techmart deploy/techmart-api -- node -e "const h=require('http');h.get('http://localhost:3000/metrics',r=>{let d='';r.on('data',c=>d+=c);r.on('end',()=>console.log(d.slice(0,400)))})"
 
-# 8. Prometheus scraping
+# 8. Frontend HTML
+kubectl exec -n techmart deploy/techmart-frontend -- sh -c "cat /usr/share/nginx/html/index.html | head -3"
+
+# 9. Prometheus scraping
 kubectl exec -n monitoring deploy/prometheus -- wget -qO- --timeout=3 http://techmart-service.techmart:3000/health
 ```
 
@@ -203,7 +208,7 @@ bash scripts/teardown.sh
 | 1–4 | Backend API, Docker, K8s deployment, Networking | ✅ Complete |
 | 5 | Helm chart | ✅ Complete |
 | 6–8 | Git, CI/CD, Monitoring + Advanced (Terraform, Ansible, Security, Chaos, Service Mesh) | ✅ Complete |
-| 9 | React frontend with Nginx multi-stage build | ⬜ Planned |
+| 9 | React frontend with Nginx | ✅ Complete |
 | 10 | Redis caching + session store | ⬜ Planned |
 | 11 | GitOps (ArgoCD) | ⬜ Planned |
 | 12 | AWS migration (EKS, RDS, ElastiCache) | ⬜ Planned |

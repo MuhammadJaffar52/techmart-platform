@@ -8,6 +8,7 @@
 
 | Component | Status | Details |
 |---|---|---|
+| **Frontend** | ✅ Deployed on KIND | React SPA served by Nginx on port 80 — product catalog with filters, cart, live status |
 | **Backend API** | ✅ Deployed on KIND | Node.js/Express on port 3000 — CRUD for products, users, cart, orders. Health at `/health` |
 | **PostgreSQL** | ✅ Deployed on KIND | 5 tables (`products`, `users`, `cart_items`, `orders`, `order_items`) + 8 seed products |
 | **Dockerfile** | ✅ Multi-stage | `app/backend/Dockerfile` — node:20-alpine, non-root user, healthcheck, .dockerignore |

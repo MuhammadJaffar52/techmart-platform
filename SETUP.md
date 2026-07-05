@@ -36,9 +36,9 @@ bash scripts/setup.sh
 That single command:
 1. Checks prerequisites
 2. Installs Node.js dependencies
-3. Builds the Docker image (multi-stage, non-root, healthcheck)
+3. Builds Docker images (backend API + frontend Nginx)
 4. Creates a 3-node KIND cluster (1 control-plane + 2 workers)
-5. Loads the Docker image into all nodes
+5. Loads images into all nodes
 6. Deploys all K8s manifests (Namespace, ConfigMap, Secret, Deployments, Services, Ingress, PVC)
 7. Initializes PostgreSQL schema (5 tables) + seed data (8 products)
 8. Deploys monitoring stack (Prometheus, Grafana, Loki, Promtail)
@@ -49,14 +49,16 @@ That single command:
 ```bash
 # 1. Build
 docker build -t techmart-api:latest app/backend
+docker build -t techmart-frontend:latest app/frontend
 
 # 2. Create cluster
 kind create cluster --name techmart --config kubernetes/kind-3-node.yaml
 
-# 3. Load image
+# 3. Load images
 kind load docker-image techmart-api:latest --name techmart
+kind load docker-image techmart-frontend:latest --name techmart
 
-# 4. Deploy app
+# 4. Deploy app (includes both backend + frontend via Kustomize)
 kubectl apply -k kubernetes/
 
 # 5. Wait for postgres
@@ -86,17 +88,19 @@ kubectl apply -f monitoring/promtail-deployment.yaml
 Run these in order to manually rebuild the entire stack:
 
 ```bash
-# Step 1 — Build the Docker image
+# Step 1 — Build Docker images
 cd techmart-platform
 docker build -t techmart-api:latest app/backend
+docker build -t techmart-frontend:latest app/frontend
 
 # Step 2 — Create 3-node KIND cluster
 kind create cluster --name techmart --config kubernetes/kind-3-node.yaml
 
-# Step 3 — Load image into all cluster nodes
+# Step 3 — Load images into all cluster nodes
 kind load docker-image techmart-api:latest --name techmart
+kind load docker-image techmart-frontend:latest --name techmart
 
-# Step 4 — Deploy all K8s resources
+# Step 4 — Deploy all K8s resources (includes backend + frontend)
 kubectl apply -k kubernetes/
 
 # Step 5 — Wait for postgres to be ready
@@ -127,17 +131,17 @@ kubectl exec -n techmart deploy/techmart-api -- node -e "const h=require('http')
 ### Port forwards (for browser access)
 
 ```bash
-# Terminal 1 — Grafana dashboard
-kubectl port-forward -n monitoring svc/grafana 3001:3000
-# → http://localhost:3001  (admin/admin)
+# Terminal 1 — Frontend (product catalog UI)
+kubectl port-forward -n techmart svc/techmart-frontend-service 8080:80
+# → http://localhost:8080
 
-# Terminal 2 — Prometheus
-kubectl port-forward -n monitoring svc/prometheus 9090:9090
-# → http://localhost:9090
-
-# Terminal 3 — TechMart API
+# Terminal 2 — TechMart API
 kubectl port-forward -n techmart svc/techmart-service 3000:3000
 # → http://localhost:3000/api/products
+
+# Terminal 3 — Grafana dashboard
+kubectl port-forward -n monitoring svc/grafana 3001:3000
+# → http://localhost:3001  (admin/admin)
 ```
 
 ---
@@ -169,14 +173,17 @@ techmart-platform/
 │   ├── setup.sh          # One-command rebuild
 │   └── teardown.sh       # One-command destroy
 ├── app/
-│   └── backend/          # Node.js Express API
-│       ├── index.js      # API server (CRUD + /health + /metrics)
-│       ├── Dockerfile    # Multi-stage build
-│       ├── .dockerignore
-│       ├── package.json
-│       └── db/
-│           ├── schema.sql
-│           └── seed.sql
+│   ├── backend/          # Node.js Express API
+│   │   ├── index.js      # API server (CRUD + /health + /metrics)
+│   │   ├── Dockerfile    # Multi-stage build
+│   │   ├── .dockerignore
+│   │   ├── package.json
+│   │   └── db/
+│   │       ├── schema.sql
+│   │       └── seed.sql
+│   └── frontend/         # React SPA (Nginx-served)
+│       ├── index.html    # Product catalog with filters, cart, live status
+│       └── Dockerfile    # nginx:alpine, serves on port 80
 ├── docker/
 │   └── docker-compose.yml  # Local dev stack
 ├── kubernetes/             # K8s manifests (Kustomize)
