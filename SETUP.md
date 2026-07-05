@@ -81,6 +81,67 @@ kubectl apply -f monitoring/promtail-deployment.yaml
 
 ---
 
+## Commands in Sequence (Quick Reference)
+
+Run these in order to manually rebuild the entire stack:
+
+```bash
+# Step 1 — Build the Docker image
+cd techmart-platform
+docker build -t techmart-api:latest app/backend
+
+# Step 2 — Create 3-node KIND cluster
+kind create cluster --name techmart --config kubernetes/kind-3-node.yaml
+
+# Step 3 — Load image into all cluster nodes
+kind load docker-image techmart-api:latest --name techmart
+
+# Step 4 — Deploy all K8s resources
+kubectl apply -k kubernetes/
+
+# Step 5 — Wait for postgres to be ready
+kubectl wait --for=condition=ready --timeout=180s -n techmart pod -l app=postgres
+
+# Step 6 — Initialize the database
+kubectl exec -n techmart deploy/postgres -- psql -U postgres -d techmart -c "$(cat app/backend/db/schema.sql)"
+kubectl exec -n techmart deploy/postgres -- psql -U postgres -d techmart -c "$(cat app/backend/db/seed.sql)"
+
+# Step 7 — Deploy monitoring stack (Prometheus + Grafana + Loki + Promtail)
+kubectl apply -f monitoring/monitoring-namespace.yaml
+kubectl apply -f monitoring/prometheus-config.yaml
+kubectl apply -f monitoring/prometheus-deployment.yaml
+kubectl apply -f monitoring/grafana-datasources.yaml
+kubectl apply -f monitoring/grafana-deployment.yaml
+kubectl apply -f monitoring/loki-config.yaml
+kubectl apply -f monitoring/loki-deployment.yaml
+kubectl apply -f monitoring/promtail-config.yaml
+kubectl apply -f monitoring/promtail-deployment.yaml
+
+# Step 8 — Verify everything is running
+kubectl get pods -A --sort-by=.metadata.namespace
+
+# Step 9 — Test the API
+kubectl exec -n techmart deploy/techmart-api -- node -e "const h=require('http');h.get('http://localhost:3000/health',r=>{let d='';r.on('data',c=>d+=c);r.on('end',()=>console.log(d))})"
+```
+
+### Port forwards (for browser access)
+
+```bash
+# Terminal 1 — Grafana dashboard
+kubectl port-forward -n monitoring svc/grafana 3001:3000
+# → http://localhost:3001  (admin/admin)
+
+# Terminal 2 — Prometheus
+kubectl port-forward -n monitoring svc/prometheus 9090:9090
+# → http://localhost:9090
+
+# Terminal 3 — TechMart API
+kubectl port-forward -n techmart svc/techmart-service 3000:3000
+# → http://localhost:3000/api/products
+```
+
+---
+
 ## How to Destroy Everything
 
 ### Quick destroy (namespaces only — cluster stays)

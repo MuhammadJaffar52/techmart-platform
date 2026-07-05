@@ -104,3 +104,60 @@ kubectl port-forward -n techmart svc/techmart-service 3000:3000
 ```bash
 kubectl get pods -A --sort-by=.metadata.namespace
 ```
+
+---
+
+## Setup Commands in Sequence (Rebuild from Scratch)
+
+Run these in order on a fresh clone:
+
+```bash
+# Prerequisites check
+docker --version && kind --version && kubectl version --client && node --version
+
+# Step 1 — Build Docker image
+docker build -t techmart-api:latest app/backend
+
+# Step 2 — Create 3-node KIND cluster
+kind create cluster --name techmart --config kubernetes/kind-3-node.yaml
+
+# Step 3 — Load image into cluster nodes
+kind load docker-image techmart-api:latest --name techmart
+
+# Step 4 — Deploy all K8s resources
+kubectl apply -k kubernetes/
+
+# Step 5 — Wait for postgres
+kubectl wait --for=condition=ready --timeout=180s -n techmart pod -l app=postgres
+
+# Step 6 — Initialize database schema + seed data
+kubectl exec -n techmart deploy/postgres -- psql -U postgres -d techmart -c "$(cat app/backend/db/schema.sql)"
+kubectl exec -n techmart deploy/postgres -- psql -U postgres -d techmart -c "$(cat app/backend/db/seed.sql)"
+
+# Step 7 — Deploy monitoring stack
+kubectl apply -f monitoring/monitoring-namespace.yaml
+kubectl apply -f monitoring/prometheus-config.yaml
+kubectl apply -f monitoring/prometheus-deployment.yaml
+kubectl apply -f monitoring/grafana-datasources.yaml
+kubectl apply -f monitoring/grafana-deployment.yaml
+kubectl apply -f monitoring/loki-config.yaml
+kubectl apply -f monitoring/loki-deployment.yaml
+kubectl apply -f monitoring/promtail-config.yaml
+kubectl apply -f monitoring/promtail-deployment.yaml
+
+# Step 8 — Verify all pods are running
+kubectl get pods -A --sort-by=.metadata.namespace
+
+# Step 9 — Test API health
+kubectl exec -n techmart deploy/techmart-api -- node -e "const h=require('http');h.get('http://localhost:3000/health',r=>{let d='';r.on('data',c=>d+=c);r.on('end',()=>console.log(d))})"
+```
+
+### Automated (one command)
+```bash
+bash scripts/setup.sh
+```
+
+### Destroy everything
+```bash
+bash scripts/teardown.sh
+```
