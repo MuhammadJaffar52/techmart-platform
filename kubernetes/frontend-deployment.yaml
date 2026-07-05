@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techmart-frontend
+  namespace: techmart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techmart-frontend
+  template:
+    metadata:
+      labels:
+        app: techmart-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: techmart-frontend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "32Mi"
+            limits:
+              cpu: "200m"
+              memory: "64Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: techmart-frontend-service
+  namespace: techmart
+spec:
+  selector:
+    app: techmart-frontend
+  ports:
+    - port: 80
+      targetPort: 80

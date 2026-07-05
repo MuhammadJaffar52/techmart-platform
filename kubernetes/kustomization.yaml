@@ -7,4 +7,5 @@ resources:
   - techmart-secret.yaml
   - postgres-deployment.yaml
   - techmart-deployment.yaml
+  - frontend-deployment.yaml
   - techmart-ingress.yaml
