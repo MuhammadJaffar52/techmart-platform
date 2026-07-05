@@ -1,0 +1,52 @@
+---
+- name: Deploy TechMart with Docker
+  hosts: all
+  become: yes
+  vars:
+    postgres_db: techmart
+    postgres_user: postgres
+    postgres_password: postgres
+    app_port: 3000
+
+  tasks:
+    - name: Install required packages
+      apt:
+        name:
+          - docker.io
+          - docker-compose-plugin
+          - python3-pip
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Create app directory
+      file:
+        path: /opt/techmart
+        state: directory
+        mode: "0755"
+
+    - name: Copy docker-compose.yml
+      copy:
+        src: ../docker/docker-compose.yml
+        dest: /opt/techmart/docker-compose.yml
+
+    - name: Start TechMart stack
+      docker_compose:
+        project_src: /opt/techmart
+        state: present
+        restarted: yes
+
+    - name: Wait for API health check
+      uri:
+        url: "http://localhost:{{ app_port }}/health"
+        method: GET
+        status_code: 200
+      register: health_result
+      retries: 10
+      delay: 5
+      until: health_result.status == 200

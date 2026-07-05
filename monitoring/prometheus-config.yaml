@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+
+    scrape_configs:
+      - job_name: "techmart-api"
+        kubernetes_sd_configs:
+          - role: pod
+            namespaces:
+              names: [techmart]
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            regex: techmart-api
+            action: keep
+          - source_labels: [__address__]
+            action: replace
+            regex: ([^:]+)(?::\d+)?
+            replacement: $1:3000
+            target_label: __address__
+
+      - job_name: "kubernetes-nodes"
+        kubernetes_sd_configs:
+          - role: node
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_node_label_(.+)
+
+      - job_name: "kubernetes-pods"
+        kubernetes_sd_configs:
+          - role: pod

@@ -1,0 +1,16 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: techmart-pod-kill
+  namespace: techmart
+spec:
+  action: pod-kill
+  mode: one
+  selector:
+    namespaces:
+      - techmart
+    labelSelectors:
+      app: techmart-api
+  duration: "30s"
+  scheduler:
+    cron: "@every 5m"

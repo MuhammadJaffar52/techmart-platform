@@ -1,0 +1,24 @@
+{
+  "title": "TechMart API Dashboard",
+  "panels": [
+    {
+      "title": "HTTP Requests",
+      "type": "graph",
+      "targets": [
+        {
+          "expr": "rate(http_requests_total[5m])",
+          "legendFormat": "{{method}} {{path}}"
+        }
+      ]
+    },
+    {
+      "title": "Database Connections",
+      "type": "gauge",
+      "targets": [
+        {
+          "expr": "db_connections_active"
+        }
+      ]
+    }
+  ]
+}

@@ -92,29 +92,86 @@ kubectl auth can-i <verb> <resource> --as=<user>
 
 ## 2. Docker
 
+### Daemon / Connection Errors
 | Error | Common Cause |
 |---|---|
-| `Cannot connect to the Docker daemon` | Docker daemon not running, or wrong socket permissions |
-| `permission denied while trying to connect to the Docker daemon socket` | User not in `docker` group |
-| `no space left on device` | Disk full from unpruned images/containers/volumes |
-| `OCI runtime create failed` | Bad entrypoint/command, or missing binary in image |
-| `exec format error` | Architecture mismatch (e.g., ARM image on x86 host) |
-| `port is already allocated` | Host port already bound by another container/process |
-| `network ... not found` | Referenced Docker network was removed or never created |
-| `COPY failed: file not found` | Wrong build context or `.dockerignore` excluding needed file |
-| `failed to solve: process ... did not complete successfully` | RUN command failed during build — check the actual command output |
-| `manifest for image:tag not found` | Tag doesn't exist, or wrong registry/repo path |
+| `Cannot connect to the Docker daemon at unix:///var/run/docker.sock` | Docker daemon not running |
+| `permission denied while trying to connect to the Docker daemon socket` | User not in `docker` group — needs sudo or group membership |
+| `dial unix docker.sock: connect: connection refused` | Daemon crashed or not started |
+| `Error response from daemon: dial tcp: lookup ... no such host` | DNS resolution failing inside daemon context |
+| `context deadline exceeded` (daemon) | Daemon overloaded or hung |
+| `Error starting daemon: pid file found, ensure docker is not running` | Stale PID file from an unclean shutdown |
+
+### Build Errors
+| Error | Common Cause |
+|---|---|
+| `COPY failed: file not found in build context` | Wrong build context path, or file excluded by `.dockerignore` |
+| `failed to solve: process "/bin/sh -c ..." did not complete successfully` | The actual RUN command failed — check output above this line |
+| `failed to solve with frontend dockerfile.v0` | Syntax error in Dockerfile |
+| `no such file or directory` during COPY/ADD | Path typo, or file not present at build time |
+| `exec format error` | Architecture mismatch — building/running ARM image on x86 host or vice versa |
+| `failed to fetch metadata` | BuildKit cache corruption |
+| `unknown instruction:` | Dockerfile directive misspelled |
+| `pull access denied, repository does not exist or may require authorization` | Base image name wrong, or private and not logged in |
+| `failed to authorize: authentication required` | `docker login` not run for private registry |
 | `toomanyrequests: You have reached your pull rate limit` | Docker Hub anonymous pull limit hit |
-| Layer caching not working | Dockerfile instructions reordered, invalidating cache unnecessarily |
-| Container exits immediately | No foreground process (e.g., missing `-it`, or CMD backgrounds itself) |
+| Build cache not invalidating when it should | Layer depends on external state (e.g. `apt update`) not tracked by Docker |
+| Build cache invalidating too often | Files that change often (like source code) placed too early in Dockerfile |
+| `failed to compute cache key` | Corrupted BuildKit cache — needs `docker builder prune` |
+
+### Runtime / Container Start Errors
+| Error | Common Cause |
+|---|---|
+| `OCI runtime create failed: exec: "...": executable file not found in $PATH` | ENTRYPOINT/CMD binary doesn't exist in the image |
+| `OCI runtime create failed: ... permission denied` | Binary not executable, or `--user` lacks rights |
+| `standard_init_linux.go:228: exec user process caused: exec format error` | Wrong CPU architecture for the image |
+| Container exits immediately (code 0) | No long-running foreground process — CMD backgrounds itself or finishes instantly |
+| `Error response from daemon: driver failed programming external connectivity` | Port already in use, or iptables rule conflict |
+| `port is already allocated` | Another container/process is bound to that host port |
+| Container restarts in a loop | App crashing — check `docker logs`, same root causes as CrashLoopBackOff |
+| `OOMKilled: true` (in `docker inspect`) | Container hit its `--memory` limit |
+| `rpc error: code = Unknown desc = ...` | Low-level containerd/runc failure — check daemon logs |
+| `the container name "..." is already in use` | Stale container from a previous run not removed |
+| `Error: No such container` | Referenced container already removed or never existed |
+
+### Volume / Storage Errors
+| Error | Common Cause |
+|---|---|
+| `no space left on device` | Disk full — unpruned images, containers, volumes, build cache |
+| `invalid mount config for type "bind": bind source path does not exist` | Host path in `-v`/`volumes:` doesn't exist |
+| `Error mounting volume: permission denied` | SELinux/AppArmor context or host directory permissions |
+| Volume data disappears after restart | Used `docker run` without `-v` (anonymous, ephemeral layer) instead of a named volume |
+| `Error response from daemon: volume is in use` | Trying to remove a volume still attached to a container |
+
+### Networking Errors
+| Error | Common Cause |
+|---|---|
+| `network ... not found` | Referenced Docker network was removed or never created |
+| `Error response from daemon: Pool overlaps with other one on this address space` | Custom network subnet conflicts with existing network |
+| Containers can't reach each other by name | Not on the same user-defined bridge network (default bridge doesn't do DNS) |
+| Containers can't reach the internet | Host iptables/firewall blocking, or DNS not configured in daemon |
+| `Error response from daemon: endpoint ... not found` | Container disconnected from network unexpectedly |
+
+### Compose-Specific Errors
+| Error | Common Cause |
+|---|---|
+| `ERROR: for <service> Cannot start service: OCI runtime create failed` | Same as above — bad entrypoint in compose-defined service |
+| `service "..." depends on undefined service` | Typo in `depends_on`, or service removed but still referenced |
+| `Version in "./docker-compose.yml" is unsupported` | Compose file version incompatible with installed Compose/Docker version |
+| Env vars not substituting in compose file | Missing `.env` file, or wrong variable syntax (`${VAR}` vs `$VAR`) |
+| `ERROR: Service '...' failed to build` | Build context/Dockerfile path wrong relative to compose file location |
 
 **Diagnose:**
 ```bash
 docker logs <container>
-docker inspect <container>
-docker system df          # disk usage breakdown
-docker system prune -a    # reclaim space (careful — removes unused images)
+docker logs --previous <container>      # only if container was restarted by a supervisor
+docker inspect <container>              # check State, OOMKilled, ExitCode
+docker events                           # live stream of daemon-level events
+docker system df                        # disk usage breakdown
+docker system prune -a --volumes        # reclaim space (destructive — check first)
 docker build --progress=plain --no-cache .
+docker network inspect <network>
+journalctl -u docker.service            # daemon-level errors on Linux
 ```
 
 ---

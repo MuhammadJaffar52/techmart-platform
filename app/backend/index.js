@@ -1,8 +1,26 @@
 const express = require('express');
 const { Pool } = require('pg');
+const promClient = require('prom-client');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const register = new promClient.Registry();
+promClient.collectDefaultMetrics({ register });
+
+const httpCounter = new promClient.Counter({
+  name: 'http_requests_total',
+  help: 'Total HTTP requests',
+  labelNames: ['method', 'path', 'status'],
+  registers: [register],
+});
+
+app.use((req, res, next) => {
+  res.on('finish', () => {
+    httpCounter.inc({ method: req.method, path: req.route?.path || req.path, status: res.statusCode });
+  });
+  next();
+});
 
 const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
@@ -13,6 +31,13 @@ const pool = new Pool({
 });
 
 app.use(express.json());
+
+// ─── Metrics ───────────────────────────────────────────────
+
+app.get('/metrics', async (_req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
+});
 
 // ─── Health ────────────────────────────────────────────────
 

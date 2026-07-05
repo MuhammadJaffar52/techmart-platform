@@ -1,0 +1,67 @@
+name: TechMart CI/CD
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+env:
+  IMAGE_NAME: techmart-api
+  KIND_CLUSTER_NAME: techmart
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm ci --only=production
+        working-directory: app/backend
+      - name: Run linter
+        run: npx eslint index.js || echo "No linter configured"
+
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t ${{ env.IMAGE_NAME }}:${{ github.sha }} ./app/backend
+      - name: Save image
+        run: docker save ${{ env.IMAGE_NAME }}:${{ github.sha }} > /tmp/image.tar
+      - uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: /tmp/image.tar
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          path: /tmp
+      - name: Load image
+        run: docker load < /tmp/image.tar
+      - name: Create KIND cluster
+        run: |
+          kind create cluster --name ${{ env.KIND_CLUSTER_NAME }} --config kubernetes/kind-3-node.yaml || true
+      - name: Load image into KIND
+        run: |
+          kind load docker-image ${{ env.IMAGE_NAME }}:${{ github.sha }} --name ${{ env.KIND_CLUSTER_NAME }}
+      - name: Deploy to KIND
+        run: |
+          kubectl apply -k kubernetes/
+      - name: Verify deployment
+        run: |
+          kubectl wait --for=condition=available --timeout=60s -n techmart deployment/techmart-api
+          kubectl port-forward -n techmart svc/techmart-service 3000:3000 &
+          sleep 3
+          curl -f http://localhost:3000/health || echo "Health check failed"
